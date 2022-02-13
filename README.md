@@ -21,7 +21,9 @@ You can only use this package with typescript for now
 ## Todo
 - support `balance: Readable<ethers.BigNumber> = getBalance(address?: string)`
   - this need internal ERC20 abi
+  - todo 
 - improve `ethers.providers.JrpcProvider` connection
   -  by `connectProvider(provider)` to `connect(provider)` (but this will make `connect(chainId)` weird)
 - create canonical components for contracts (`<Contract {address, abi}>`)
-  - working on it, parsing...
+  - how to parse kwargs
+- refactor `IStore` by not using `ReturnType<typeof useEth>` 

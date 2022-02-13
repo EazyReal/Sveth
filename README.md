@@ -11,14 +11,17 @@
 
 ## Usage
 ```ts
-import { useEth } from '../sveth/useEth'
+import { useEth } from 'sveth'
 export const { connect, connected, provider, signer, chainId, account } = useEth()
 ```
-- `$store` to get value from `store`s
+
+Note: \
+You can only use this package with typescript for now
 
 ## Todo
-- wrap the `Writable`s
-- support `contract` and `balance`
-- support `ethers.providers.JrpcProvider` by `connectProvider(provider)`
+- support `balance: Readable<ethers.BigNumber> = getBalance(address?: string)`
+  - this need internal ERC20 abi
+- improve `ethers.providers.JrpcProvider` connection
+  -  by `connectProvider(provider)` to `connect(provider)` (but this will make `connect(chainId)` weird)
 - create canonical components for contracts (`<Contract {address, abi}>`)
-- build typescript to javascipt as npm package
+  - working on it, parsing...

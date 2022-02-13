@@ -1,7 +1,7 @@
 {
   "name": "sveth",
   "version": "0.0.1",
-  "description": "eth hook for svelte",
+  "description": "eth hook for svelte in typescript",
   "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -3,8 +3,14 @@ import {
   type Provider,
   type JsonRpcProvider,
 } from "@ethersproject/providers"
-import type { Signer } from "ethers"
-import { derived, writable, get, type Writable } from "svelte/store"
+import type { BigNumber, Signer } from "ethers"
+import {
+  derived,
+  writable,
+  get,
+  type Writable,
+  type Readable,
+} from "svelte/store"
 
 // providers supported
 type sProvider = JsonRpcProvider | Web3Provider
@@ -63,6 +69,11 @@ export const useEth = () => {
     }
   }
 
+  const connectProvider = (rpcProvider: JsonRpcProvider) => {
+    connected.set(true)
+    provider.set(rpcProvider)
+  }
+
   const chainId = derived<Writable<sProvider>, number>(
     provider,
     ($provider, set) => {
@@ -81,17 +92,36 @@ export const useEth = () => {
         })()
     }
   )
-  const account = derived<Writable<sProvider>, string>(
-    provider,
-    ($provider, set) => {
-      if ($provider)
-        (async () => {
-          let $signer = $provider.getSigner()
-          set(await $signer.getAddress())
-        })()
+  const account = derived<Readable<Signer>, string>(signer, ($signer, set) => {
+    if ($signer)
+      (async () => {
+        set(await $signer.getAddress())
+      })()
+  })
+
+  const getBalance = (address?: string) => {
+    if (!address) {
+      return derived<Readable<Signer>, BigNumber>(signer, ($signer, set) => {
+        if ($signer)
+          (async () => {
+            set(await $signer.getBalance())
+          })()
+      })
+    } else {
+      throw Error("Not Impletmented, Need ERC20 built in ")
     }
-  )
-  return { connect, connected, provider, signer, chainId, account }
+  }
+
+  return {
+    connect,
+    connectProvider,
+    connected,
+    provider,
+    signer,
+    chainId,
+    account,
+    getBalance,
+  }
 }
 
 export default useEth

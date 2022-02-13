@@ -1,0 +1,33 @@
+{
+  "name": "sveth",
+  "version": "0.0.0",
+  "description": "eth hook for svelte",
+  "main": "src/index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EazyReal/Sveth.git"
+  },
+  "keywords": [
+    "ethers.js",
+    "svelte",
+    "frontend",
+    "blockchain",
+    "evm"
+  ],
+  "author": "maxwill",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/EazyReal/Sveth/issues"
+  },
+  "homepage": "https://github.com/EazyReal/Sveth#readme",
+  "dependencies": {
+    "ethers": "^5.5.4",
+    "svelte": "^3.46.4"
+  }
+}

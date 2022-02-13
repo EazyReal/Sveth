@@ -1,0 +1,11 @@
+.env
+
+.svelte-kit
+dist
+
+node_modules
+
+.vercel_build_output
+.cloudflare
+.pnpm-debug.log
+.netlify

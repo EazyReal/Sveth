@@ -1,1 +1,1 @@
-export { useEth } from "./useEth"
+export { useEth, IStore, sProvider } from "./useEth"

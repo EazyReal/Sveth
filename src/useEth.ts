@@ -13,7 +13,8 @@ import {
 } from "svelte/store"
 
 // providers supported
-type sProvider = JsonRpcProvider | Web3Provider
+export type sProvider = JsonRpcProvider | Web3Provider
+export type IStore = ReturnType<typeof useEth>
 
 export const useEth = () => {
   let injected

@@ -9,7 +9,7 @@
 
   let props = {
     type: typeMap[input.type],
-    placeholder: input.type,
+    placeholder: input.name + "(" + input.type + ")",
   }
 </script>
 

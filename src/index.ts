@@ -1,1 +1,1 @@
-export { useEth, IStore, sProvider } from "./useEth"
+export { useEth, type IStore, type sProvider } from "./useEth"

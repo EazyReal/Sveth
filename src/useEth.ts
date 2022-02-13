@@ -3,7 +3,7 @@ import {
   type Provider,
   type JsonRpcProvider,
 } from "@ethersproject/providers"
-import type { BigNumber, Signer } from "ethers"
+import { BigNumber, Signer } from "ethers"
 import {
   derived,
   writable,
@@ -17,7 +17,7 @@ export type sProvider = JsonRpcProvider | Web3Provider
 export type IStore = ReturnType<typeof useEth>
 
 export const useEth = () => {
-  let injected
+  let injected: any
   const provider = writable<sProvider>()
   const connected = writable<Boolean>(false)
 

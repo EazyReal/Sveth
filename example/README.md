@@ -1,5 +1,8 @@
 # Sveth
 
+## Lessen Learnt
+- use `npm install ..` to test example
+
 ## Doc
 - `useEth` hook returns relevant `store`s and `derived store`s
   - `connect: async (chainId?: number) => void` connect to metamask, with desired side effects (connected = true, provider = injected....)

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Interface } from "@ethersproject/abi"
+  import { Fragment, Interface } from "@ethersproject/abi"
   import { Contract } from "ethers"
   import { IStore } from ".."
   import ContractFragment from "./ContractFragment.svelte"
@@ -13,8 +13,8 @@
 </script>
 
 <div>
-  <h5>Contract {address}</h5>
-  {#each iface.fragments as fragment}
+  <h3>Contract {address}</h3>
+  {#each iface.fragments.filter((fragment) => fragment.type === "function") as fragment}
     <ContractFragment {fragment} {contract} {store} />
   {/each}
 </div>

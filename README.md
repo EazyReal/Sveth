@@ -26,4 +26,5 @@ You can only use this package with typescript for now
   -  by `connectProvider(provider)` to `connect(provider)` (but this will make `connect(chainId)` weird)
 - create canonical components for contracts (`<Contract {address, abi}>`)
   - how to parse kwargs
+  - https://github.com/scaffold-eth/scaffold-eth/blob/master/packages/react-app/src/components/Contract/FunctionForm.jsx#L187
 - refactor `IStore` by not using `ReturnType<typeof useEth>` 

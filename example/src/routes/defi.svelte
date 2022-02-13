@@ -6,7 +6,7 @@
 	import  { connect, connected, provider, signer, chainId, account  } from '../stores/eth';
     import { onMount } from 'svelte'
     import { ethers } from 'ethers'
-    let balance: ethers.BigNumber
+    let balance: ethers.BigNumber = undefined
     $: {
         if($signer) $signer.getBalance().then((res)=>balance = res)
     }

@@ -18,11 +18,20 @@
     connect()
   })
 
-  let { connect, connected, provider, signer, chainId, account, getBalance } =
-    store as IStore
+  let {
+    connect,
+    connected,
+    provider,
+    signer,
+    chainId,
+    account,
+    getBalanceStore,
+  } = store as IStore
 
   let balance: ethers.BigNumber = undefined
-  let balanceStore = getBalance("0x351821Ed49F23f884D6B168247Ec36D7732D8BD3")
+  let balanceStore = getBalanceStore(
+    "0x351821Ed49F23f884D6B168247Ec36D7732D8BD3"
+  )
   $: {
     if ($signer) $signer.getBalance().then((res) => (balance = res))
   }

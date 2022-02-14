@@ -13,10 +13,19 @@ import {
 } from "svelte/store"
 
 // providers supported
-export type sProvider = JsonRpcProvider | Web3Provider
-export type IStore = ReturnType<typeof useEth>
+export type sProvider = JsonRpcProvider //Web3Provider is extended JsonRpcProvider
+export type IStore = {
+  connect: (chainId?: number) => Promise<void>
+  connectProvider: (rpcProvider: JsonRpcProvider) => void
+  connected: Writable<Boolean>
+  provider: Writable<sProvider>
+  signer: Readable<Signer>
+  chainId: Readable<number>
+  account: Readable<string>
+  getBalance: (address?: string) => Readable<BigNumber>
+}
 
-export const useEth = () => {
+export const useEth: () => IStore = () => {
   let injected: any
   const provider = writable<sProvider>()
   const connected = writable<Boolean>(false)

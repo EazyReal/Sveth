@@ -2,6 +2,7 @@
 
 ## Lessen Learnt
 - use `npm install ..` to test example
+- `type` alias is removed at runtime, no way to check `instanceof <type alias>`
 
 ## Doc
 - `useEth` hook returns relevant `store`s and `derived store`s
@@ -18,6 +19,7 @@ import { useEth } from '../sveth/useEth'
 export const { connect, connected, provider, signer, chainId, account } = useEth()
 ```
 - `$store` to get value from `store`s
+- see example for more (`<Contract {contract} />`)
 
 ## Todo
 - wrap the `Writable`s

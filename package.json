@@ -1,6 +1,6 @@
 {
   "name": "sveth",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "eth hook for svelte in typescript",
   "main": "src/index.ts",
   "scripts": {

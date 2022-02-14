@@ -3,7 +3,7 @@ import {
   type Provider,
   type JsonRpcProvider,
 } from "@ethersproject/providers"
-import { BigNumber, Signer } from "ethers"
+import { BigNumber, Signer, Contract } from "ethers"
 import {
   derived,
   writable,
@@ -11,6 +11,8 @@ import {
   type Writable,
   type Readable,
 } from "svelte/store"
+
+import IERC20 from "./abis/erc20.json"
 
 // providers supported
 export type sProvider = JsonRpcProvider //Web3Provider is extended JsonRpcProvider
@@ -22,7 +24,7 @@ export type IStore = {
   signer: Readable<Signer>
   chainId: Readable<number>
   account: Readable<string>
-  getBalance: (address?: string) => Readable<BigNumber>
+  getBalanceStore: (address?: string) => Readable<BigNumber>
 }
 
 export const useEth: () => IStore = () => {
@@ -109,7 +111,7 @@ export const useEth: () => IStore = () => {
       })()
   })
 
-  const getBalance = (address?: string) => {
+  const getBalanceStore = (address?: string) => {
     if (!address) {
       return derived<Readable<Signer>, BigNumber>(signer, ($signer, set) => {
         if ($signer)
@@ -118,7 +120,16 @@ export const useEth: () => IStore = () => {
           })()
       })
     } else {
-      throw Error("Not Impletmented, Need ERC20 built in ")
+      const ERC20 = new Contract(address, IERC20)
+      return derived<Readable<Signer>, BigNumber>(signer, ($signer, set) => {
+        if ($signer)
+          (async () => {
+            let balance = await ERC20.connect($signer).balanceOf(
+              await $signer.getAddress()
+            )
+            set(balance)
+          })()
+      })
     }
   }
 
@@ -130,7 +141,7 @@ export const useEth: () => IStore = () => {
     signer,
     chainId,
     account,
-    getBalance,
+    getBalanceStore,
   }
 }
 

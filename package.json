@@ -3,6 +3,7 @@
   "version": "0.0.7",
   "description": "eth hook for svelte in typescript",
   "main": "src/index.ts",
+  "files": ["/src"],
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
   },

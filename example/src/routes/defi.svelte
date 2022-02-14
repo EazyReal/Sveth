@@ -22,7 +22,7 @@
     store as IStore
 
   let balance: ethers.BigNumber = undefined
-  let balanceStore = getBalance()
+  let balanceStore = getBalance("0x351821Ed49F23f884D6B168247Ec36D7732D8BD3")
   $: {
     if ($signer) $signer.getBalance().then((res) => (balance = res))
   }

@@ -68,4 +68,4 @@ You can only use this package with typescript for now
 - `const {reactive_contract} = useContract(address, abi, $signer)`
 
 ### Note
-- the package is a side project of mine, which I will put less effor from now on, feel free to contribute
+- the package is a side project of mine, which I will put less effort from now on, feel free to contribute

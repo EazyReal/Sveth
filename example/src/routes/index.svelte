@@ -1,59 +1,71 @@
 <script context="module" lang="ts">
-	export const prerender = true;
+  export const prerender = true
 </script>
 
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
+  import { ethers, Contract } from "ethers"
+  import { Interface } from "@ethersproject/abi"
+  import { onMount } from "svelte"
+  // sveth
+  import { IStore, sProvider } from "sveth"
+  import ContractCard from "sveth/src/components/ContractCard.svelte"
+  // local
+  import USDCABI from "../abis/USDC.json"
+  import store from "../stores/eth"
+
+  onMount(async () => {
+    connect()
+  })
+
+  let {
+    connect,
+    connected,
+    provider,
+    signer,
+    chainId,
+    account,
+    getBalanceStore,
+  } = store as IStore
+
+  const USDCaddress = "0x07865c6E87B9F70255377e024ace6630C1Eaa37F"
+  let contractChainId = 5
+
+  let balance: ethers.BigNumber = undefined
+  let chainName: string = undefined
+  let balanceStore = getBalanceStore(USDCaddress)
+  $: {
+    // this show how to use with ethers
+    if ($signer) $signer.getBalance().then((res) => (balance = res))
+  }
+  $: {
+    if ($provider) $provider.getNetwork().then((res) => (chainName = res.name))
+  }
+  let contract = new Contract(USDCaddress, USDCABI)
+  let props = {
+    contract,
+    store,
+    contractChainId,
+  }
 </script>
 
 <svelte:head>
-	<title>Home</title>
+  <title>Eth Hooks and Contract Components</title>
 </svelte:head>
 
-<section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</div>
+<h1>Eth Hooks and Contract Components</h1>
 
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
-
-	<Counter />
-</section>
+<button on:click={() => connect(contractChainId)}>
+  Connect Wallet (chainId5)
+</button>
+<p>connected: {$connected}</p>
+{#if $connected}
+  <p>chainId: {$chainId}</p>
+  <p>chainName: {chainName}</p>
+  <p>Account: {$account}</p>
+  <p>Balance: {balance}</p>
+  <p>Balance Hook: {$balanceStore}</p>
+{/if}
+<ContractCard {...props} />
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
 </style>

@@ -1,31 +1,20 @@
 <script lang="ts">
-  import {
-    Fragment,
-    FunctionFragment,
-    Interface,
-    ParamType,
-  } from "@ethersproject/abi"
+  import { FunctionFragment, ParamType } from "@ethersproject/abi"
   import { Contract } from "ethers"
   import { TransactionResponse } from "@ethersproject/providers"
   // internal
   import { IStore } from ".."
   import { typeMap } from "./constants"
-  import {
-    isReadFunction,
-    isWriteFunction,
-    RFragment,
-    WFragment,
-    Dict,
-    AsyncF,
-  } from "./utils"
+  import { isReadFunction, Dict, AsyncF } from "./utils"
 
   export let contract: Contract
   export let fragment: FunctionFragment
   export let store: IStore
+  export let contractChainId: number
 
   // maybe should handle "on connected" and "on disconnected"
 
-  const { connect, connected, provider, signer } = store
+  const { connect, connected, signer, chainId } = store
 
   //handling function args
   const DOT = "__" // seperator
@@ -64,8 +53,8 @@
     // treat Read and Write Fragment differently
     let isRead = isReadFunction(fragment)
     // connect is not so
-    if (!$connected || !$signer) {
-      await connect()
+    if (!$connected || !$signer || $chainId != contractChainId) {
+      await connect(contractChainId)
     }
     // send reqeust for tx/read
     contract = contract.connect($signer)

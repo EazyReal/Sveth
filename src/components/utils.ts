@@ -12,9 +12,11 @@ export interface AsyncF<T> {
   (...args: any[]): Promise<T>
 }
 
+export const isFunction = (fragment: Fragment): fragment is FunctionFragment =>
+  fragment.type == "function"
+
 export const isReadFunction = (fragment: Fragment): fragment is RFragment =>
-  fragment instanceof FunctionFragment &&
-  ["pure", "view"].includes(fragment.stateMutability)
+  isFunction(fragment) && ["pure", "view"].includes(fragment.stateMutability)
 export const isWriteFunction = (fragment: Fragment): fragment is WFragment =>
-  fragment instanceof FunctionFragment &&
+  isFunction(fragment) &&
   ["payable", "nonpayable"].includes(fragment.stateMutability)

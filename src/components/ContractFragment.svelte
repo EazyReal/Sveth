@@ -12,15 +12,13 @@
   export let store: IStore
   export let contractChainId: number
 
-  // maybe should handle "on connected" and "on disconnected"
-
   const { connect, connected, signer, chainId } = store
 
   //handling function args
   const DOT = "__" // seperator
-  let form: Dict<any> = {}
-  let called: Boolean = false
-  let displayedPromise: any
+  let form: Dict<any> = {} // store params from form inputs
+  let called: Boolean = false // if the fragment if ever called
+  let displayedPromise: any // the promise to display as returned value
 
   const getFunctionInputKey = (
     fragment: FunctionFragment,
@@ -49,21 +47,25 @@
     placeholder: input.name + "(" + input.type + ")",
   })
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (callback?: any) => {
     // treat Read and Write Fragment differently
     let isRead = isReadFunction(fragment)
-    // connect is not so
-    if (!$connected || !$signer || $chainId != contractChainId) {
+    // connect if not connected to the chainid
+    if (
+      !$connected ||
+      !$signer ||
+      (contractChainId && $chainId != contractChainId)
+    ) {
       await connect(contractChainId)
     }
-    // send reqeust for tx/read
-    contract = contract.connect($signer)
+    // construct tx/read
+    contract = contract.connect($signer) // TODO: should handle no signer
     let contractFunction: AsyncF<TransactionResponse> | AsyncF<any[]> =
       contract[fragment.name]
     let overrides = {}
     if (fragment.payable) overrides["value"] = form["payableValue"]
+    // send reqeust for tx/read
     let req = contractFunction(...getArgs(), overrides)
-    // why always log {}, null for req, contractFunction??
     console.log(
       `request submitted: ${JSON.stringify([
         req,
@@ -71,7 +73,7 @@
         [...getArgs()],
       ])}`
     )
-    // deal with tx
+    // deal with tx/read
     if (isRead) {
       try {
         called = true
@@ -83,7 +85,6 @@
     } else {
       try {
         let tx = await req // wait for provider confirmation
-        // TODO: handle reject tx req
         called = true
         displayedPromise = (<TransactionResponse>tx).wait(1) // wait for n blocks confirmation
         let res = await displayedPromise
@@ -93,7 +94,8 @@
         if (err.code === 4001) alert("tx rejected by metamask")
       }
     }
-    // after transaction confirmed
+    // after transaction confirmed can do call back
+    if (callback) callback()
   }
 </script>
 
